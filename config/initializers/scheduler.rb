@@ -1,3 +1,11 @@
 require 'rufus-scheduler'
 
-scheduler = Rufus:Scheduler::singleton
+scheduler = Rufus::Scheduler.new
+
+scheduler.every '5h' do 
+	Events.all do |event|
+		if event.new_record?
+			#syndicate new event to websites
+		end 
+	end
+end
