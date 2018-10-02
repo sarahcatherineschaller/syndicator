@@ -17,7 +17,6 @@ ActiveRecord::Schema.define(version: 2018_10_01_235729) do
     t.string "date"
     t.string "venue"
     t.decimal "price", precision: 8, scale: 2
-    t.decimal "decimal", precision: 8, scale: 2
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
