@@ -38,6 +38,8 @@ gem 'devise'
 
 gem 'rufus-scheduler'
 
+gem 'mechanize'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
