@@ -44,6 +44,8 @@ gem 'pry'
 
 gem 'dotenv-rails'
 
+gem 'watir'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 

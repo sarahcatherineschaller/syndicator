@@ -2,46 +2,51 @@ require 'mechanize'
 
 require 'rufus-scheduler'
 
+require 'watir'
+
+
 scheduler = Rufus::Scheduler.new
 
-scheduler.every '2s' do
+scheduler.every '5h' do
 	@events = Event.all
 	@events.each do |event|
-		if event.created_at > 5.hours.ago 
+		if event.created_at < 10.days.ago 
 
 			agent = Mechanize.new do |a|
+				a.user_agent_alias = 'Mac Safari'
 				a.follow_meta_refresh = true
-  				a.keep_alive = false
 			end
 
+		    #Yelp
+		    #visit page
+			page = agent.get('https://www.yelp.com/login')
 
-			# #Yelp
-			# agent = Mechanize.new 
-			# page = agent.get("https://www.yelp.com/events/create")
-			# form = page.forms[0]
-			# form['Event Name'] = event.name 
-			# form['When'] = event.date 
-			# form['What & Why'] = event.description
-			# form['Business Name'] = event.venue
-			# form['Price'] = event.price
-			# page = form.submit 
-		
-			# #Eventbrite
-			page = agent.get('https://www.eventbrite.com')
-			signin = page.link_with(:text => /Sign In/).click #click sign in button
+			#form for login
+			form = page.form_with(action: '/login')
+
+			#fill out form
+			form['email'] = ENV['YELP_EMAIL']
+			form['password'] = ENV['YELP_PASSWORD']
+
+			#button
+			button = form.button_with(value: 'submit')
 			
-			form = page.forms[0]
-			form['email'] = 
-			#go to login page
-			#fill out username and password
-			#click login
-			#click create event button
+			#submit form
+			form.click_button(button)
+
+			puts page.uri
+
 
 			
+			
+
+			# event_form['Event Title'] = event.name 
+			# submit_link = page.link_with(:dom_class => 'btn btn--secondary').click 
+
+			
 			# form = page.forms[0]
-			# form['Event Title*'] = event.name 
+			# form['Event Title'] = event.name 
 			# form['Location'] =  event.venue
-			# form['Starts'] = event.date 
 			# form['Event Description'] = event.description 
 			# page = agent.click(page.link_with(:text => /Save/))
 
